@@ -44,9 +44,10 @@ export default class HolbertonCourse {
   }
 
   verifyStudents(newStudents) {
-    if (!(value instanceof Array)) {
-      throw TypeError('Students must be an array')
+    if (!(newStudents instanceof Array)) {
+      throw TypeError('Students must be an array');
     }
+
     this._students = newStudents;
   }
 }
