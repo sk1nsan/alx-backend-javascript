@@ -1,6 +1,6 @@
 export default class HolbertonCourse {
   constructor(name, length, students) {
-    this.verifyName(name); // eslint-disable-line no-unused-vars
+    this.verifyName(name);
     this.verifyLength(length);
     this.verifyStudents(students);
   }
@@ -44,8 +44,8 @@ export default class HolbertonCourse {
   }
 
   verifyStudents(newStudents) {
-    if (typeof (newStudents) !== 'object') {
-      console.log(typeof (newStudents));
+    if (!(value instanceof Array)) {
+      throw TypeError('Students must be an array')
     }
     this._students = newStudents;
   }
