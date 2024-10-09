@@ -11,8 +11,6 @@ interface TeacherInterface {
 }
 
 class Director implements DirectorInterface {
-  constructor() {
-  }
   workFromHome() {
     return 'Working from home';
   }
@@ -25,8 +23,6 @@ class Director implements DirectorInterface {
 }
 
 class Teacher implements TeacherInterface {
-  constructor() {
-  }
   workFromHome() {
     return 'Cannot work from home';
   }
@@ -43,4 +39,17 @@ function createEmployee(salary: number | string): Director | Teacher {
     return new Teacher();
   }
   return new Director();
+}
+
+
+function isDirector(employee: Teacher | Director) {
+  return employee instanceof Director;
+}
+
+function executeWork(employee: Teacher | Director) {
+  if (employee instanceof Director) {
+    return employee.workDirectorTasks();
+  } else {
+    return employee.workTeacherTasks();
+  }
 }
