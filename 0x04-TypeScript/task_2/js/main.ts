@@ -42,14 +42,24 @@ function createEmployee(salary: number | string): Director | Teacher {
 }
 
 
-function isDirector(employee: Teacher | Director) {
+function isDirector(employee: Teacher | Director): boolean {
   return employee instanceof Director;
 }
 
-function executeWork(employee: Teacher | Director) {
+function executeWork(employee: Teacher | Director): string {
   if (employee instanceof Director) {
     return employee.workDirectorTasks();
   } else {
     return employee.workTeacherTasks();
+  }
+}
+
+type Subjects = 'Math' | 'History';
+
+function teachClass(todayClass: Subjects): string {
+  if (todayClass === 'Math') {
+    return 'Teaching Math';
+  } else {
+    return 'Teaching History';
   }
 }
