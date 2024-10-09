@@ -22,6 +22,8 @@ const printTeacher: printTeacherFunction = function(firstName, lastName) {
 interface Student {
   firstName: string,
   lastName: string,
+  workOnHomework(): string,
+  displayName(): string,
 }
 
 class StudentClass implements Student {
