@@ -1,17 +1,15 @@
 const http = require('http');
 const fs = require('fs');
 
-const app = http.createServer((req, res) => {
-  if (req.url === '/') {
-    res.end('Hello Holberton School!');
-  }
-  if (req.url === '/students') {
+function countStudents(path) {
+  return new Promise((resolve, reject) => {
+    let result = '';
     let count = -1;
     const csStudents = [];
     const sweStudents = [];
-    fs.readFile(process.argv[2], 'utf8', (err, data) => {
+    fs.readFile(path, 'utf8', (err, data) => {
       if (err) {
-        throw (new Error('Cannot load the database'));
+        reject(new Error('Cannot load the database'));
       }
       if (data) {
         for (const i of data.split('\n')) {
@@ -26,13 +24,30 @@ const app = http.createServer((req, res) => {
             sweStudents.push(i.slice(0, i.indexOf(',')));
           }
         }
-        res.write('This is the list of our students\n');
-        res.write(`Number of students: ${count}\n`);
-        res.write(`Number of students in CS: ${csStudents.length}. List: ${csStudents.join(', ')}\n`);
-        res.write(`Number of students in SWE: ${sweStudents.length}. List: ${sweStudents.join(', ')}`);
-        res.end();
+        result += `Number of students: ${count}\n`;
+        result += `Number of students in CS: ${csStudents.length}. List: ${csStudents.join(', ')}\n`;
+        result += `Number of students in SWE: ${sweStudents.length}. List: ${sweStudents.join(', ')}`;
+        resolve(result);
       }
     });
+  });
+}
+
+const app = http.createServer((req, res) => {
+  res.statusCode = 200;
+  if (req.url === '/') {
+    res.end('Hello Holberton School!');
+  }
+  if (req.url === '/students') {
+    countStudents(process.argv[2]).then(
+      (value) => {
+        res.end(value);
+      },
+      () => {
+        res.statusCode = 500;
+        res.end('Cannot load the database');
+      },
+    );
   }
 });
 app.listen(1245);
