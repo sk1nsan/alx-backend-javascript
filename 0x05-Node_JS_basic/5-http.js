@@ -19,6 +19,7 @@ function countStudents(path) {
             students[row[3]].push(row[0]);
           }
         }
+        result += 'This is the list of our students\n';
         result += `Number of students: ${data.length}\n`;
         for (const [key, value] of Object.entries(students)) {
           result += `Number of students in ${key}: ${value.length}. List: ${value.join(', ')}\n`;
