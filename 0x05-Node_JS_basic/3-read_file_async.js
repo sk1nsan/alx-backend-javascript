@@ -1,5 +1,4 @@
 const fs = require('fs');
-const { console } = require('inspector');
 
 module.exports = function countStudents(path) {
   return new Promise((resolve, reject) => {
@@ -7,7 +6,6 @@ module.exports = function countStudents(path) {
     const csStudents = [];
     const sweStudents = [];
     fs.readFile(path, 'utf8', (err, data) => {
-      console.log(err);
       if (err) {
         reject(new Error('Cannot load the database'));
       }
