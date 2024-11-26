@@ -32,15 +32,17 @@ function countStudents(path) {
 
 const app = express();
 app.get('/', (req, res) => {
-  res.send('Hello Holberton School!');
+  res.status(200).end('Hello Holberton School!');
 });
 
 app.get('/students', (req, res) => {
   countStudents(process.argv[2]).then((value) => {
-    res.end(value);
+    res.status(200).end(value);
   })
-    .catch((err) => {
-      res.end(err.message);
+    .catch(() => {
+      res.status(500);
+      res.write('This is the list of our students\n');
+      res.end('Cannot load the database');
     });
 });
 
