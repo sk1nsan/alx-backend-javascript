@@ -36,16 +36,15 @@ const app = http.createServer((req, res) => {
     res.end('Hello Holberton School!');
   }
   if (req.url === '/students') {
-    countStudents(process.argv[2]).then(
-      (value) => {
-        res.end(value);
-      },
-      () => {
-        res.statusCode = 500;
+    countStudents(process.argv[2]).then((value) => {
+      res.end(value);
+    })
+      .catch(() => {
         res.end('Cannot load the database');
-      },
-    );
+      });
   }
 });
+
 app.listen(1245);
+
 module.exports = app;
