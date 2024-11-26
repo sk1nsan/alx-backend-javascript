@@ -15,7 +15,7 @@ module.exports = class StudentsController {
   }
 
   static getAllStudentsByMajor(request, response) {
-    const major = request.params.major;
+    const { major } = request.params;
     if (major !== 'CS' && major !== 'SWE') {
       response.status(500).end('Major parameter must be CS or SWE');
     }
