@@ -3,31 +3,27 @@ const fs = require('fs');
 
 function countStudents(path) {
   return new Promise((resolve, reject) => {
-    let result = '';
-    let count = -1;
-    const csStudents = [];
-    const sweStudents = [];
-    fs.readFile(path, 'utf8', (err, data) => {
+    fs.readFile(path, 'utf8', (err, output) => {
       if (err) {
         reject(new Error('Cannot load the database'));
       }
-      if (data) {
-        for (const i of data.split('\n')) {
-          if (i === '') {
-            break;
-          }
-          count += 1;
-          if (i.includes('CS')) {
-            csStudents.push(i.slice(0, i.indexOf(',')));
-          }
-          if (i.includes('SWE')) {
-            sweStudents.push(i.slice(0, i.indexOf(',')));
+      if (output) {
+        let result = '';
+        const students = {};
+        const data = output.trim().split('\n').slice(1);
+        for (const i of data) {
+          const row = i.split(',');
+          if (students[row[3]] === undefined) {
+            students[row[3]] = [row[0]];
+          } else {
+            students[row[3]].push(row[0]);
           }
         }
-        result += `Number of students: ${count}\n`;
-        result += `Number of students in CS: ${csStudents.length}. List: ${csStudents.join(', ')}\n`;
-        result += `Number of students in SWE: ${sweStudents.length}. List: ${sweStudents.join(', ')}`;
-        resolve(result);
+        result += `Number of students: ${data.length}\n`;
+        for (const [key, value] of Object.entries(students)) {
+          result += `Number of students in ${key}: ${value.length}. List: ${value.join(', ')}\n`;
+        }
+        resolve(result.trim());
       }
     });
   });
