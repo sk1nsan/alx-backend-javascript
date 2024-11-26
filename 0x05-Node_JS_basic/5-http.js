@@ -31,6 +31,7 @@ function countStudents(path) {
 }
 
 const app = http.createServer((req, res) => {
+  res.setHeader('Content-Type', 'text/plain');
   res.statusCode = 200;
   if (req.url === '/') {
     res.end('Hello Holberton School!');
@@ -39,8 +40,8 @@ const app = http.createServer((req, res) => {
     countStudents(process.argv[2]).then((value) => {
       res.end(value);
     })
-      .catch(() => {
-        res.end('Cannot load the database');
+      .catch((err) => {
+        res.end(err.message);
       });
   }
 });
